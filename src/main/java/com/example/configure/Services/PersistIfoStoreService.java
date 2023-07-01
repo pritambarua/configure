@@ -1,25 +1,32 @@
 package com.example.configure.Services;
 
 
-import com.example.configure.Dtos.UserDetailsRequestDTO;
 import com.example.configure.Model.PersistInfo;
 import com.example.configure.Repository.IPersistInfoStoreRepo;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.configure.Repository.PersistInfoStoreRepo;
+import com.example.configure.search.PersistInfoSearchRepoImpl;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
 @Service
 public class PersistIfoStoreService {
     private final IPersistInfoStoreRepo persistInfoStoreRepo;
+    private final PersistInfoSearchRepoImpl persistInfoSearchRepo;
 
-    @Autowired
-    public PersistIfoStoreService(IPersistInfoStoreRepo persistInfoStoreRepo) {
+    public PersistIfoStoreService(
+            IPersistInfoStoreRepo persistInfoStoreRepo,
+            PersistInfoSearchRepoImpl persistInfoSearchRepo
+    ) {
         this.persistInfoStoreRepo = persistInfoStoreRepo;
+        this.persistInfoSearchRepo = persistInfoSearchRepo;
     }
 
-    public void addOne(PersistInfo requestDTOList){
+    public void addOne(PersistInfo requestDTOList) throws IOException {
          persistInfoStoreRepo.addOne(requestDTOList);
+         persistInfoSearchRepo.saveAll(Collections.singletonList(requestDTOList));
     };
 
     public List<PersistInfo> getAll(){

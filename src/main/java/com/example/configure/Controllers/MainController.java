@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -31,7 +32,7 @@ public class MainController {
     }
 
     @PostMapping("/add-user")
-    public ResponseEntity<Map<String, Object>> addUser(@RequestBody PersistInfo requestDTO){
+    public ResponseEntity<Map<String, Object>> addUser(@RequestBody PersistInfo requestDTO) throws IOException {
         persistIfoStoreService.addOne(requestDTO);
         return okResponseEntity(requestDTO);
     }
